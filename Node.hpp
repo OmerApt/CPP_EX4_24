@@ -1,3 +1,4 @@
+//omer.apter@msmail.ariel.ac.il
 #include <vector>
 #pragma once
 namespace ex4
@@ -21,7 +22,7 @@ namespace ex4
             next_sibling = nullptr;
             first_child = nullptr;
             last_child = nullptr;
-            int num_of_children = 0;
+            num_of_children = 0;
         }
         T get_value()
         {

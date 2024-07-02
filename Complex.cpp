@@ -1,3 +1,4 @@
+//omer.apter@msmail.ariel.ac.il
 /**
  * Implementation of the Complex class.
  * 
@@ -55,7 +56,8 @@ bool operator!=(const Complex& c1, const Complex& c2) {
 // friend global IO operators
 //----------------------------------------
 ostream& operator<< (ostream& output, const Complex& c) {
-    return (output << c._re << '+' << c._im << 'i');
+    string plus = c._im >0 ? "+":"";
+    return (output << c._re << plus << c._im << 'i');
     // equivalent to:
     // output << c._re << '+' << c._im << 'i';
     // return output;

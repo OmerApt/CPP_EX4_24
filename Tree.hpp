@@ -1,3 +1,4 @@
+//omer.apter@msmail.ariel.ac.il
 #include <vector>
 #include "Node.hpp"
 #include <map>
@@ -42,6 +43,8 @@ namespace ex4
                 if (!node.first_child)
                 {
                     node.first_child = &child;
+                    if(child_limit != 2)//for binary first and last are diffrent for evreyone else its the same at start
+                    node.last_child = &child;
                 }
                 else
                 {
@@ -53,9 +56,10 @@ namespace ex4
                     p_node->next_sibling = &child;
                     child.prev_sibling = p_node;
                     node.last_child = &child;
+                    p_node = nullptr;
                 }
                 child.parent = &node;
-                node.num_of_children++;
+                node.num_of_children += 1;
             }
         }
         // start of iterators
@@ -63,6 +67,7 @@ namespace ex4
         {
         protected:
             deque<Node<T> *> ite_next_queue;
+            deque<Node<T> *> visited;
 
         public:
             ForNonBinaryTreesIterator(Node<T> *root = nullptr)
@@ -77,18 +82,21 @@ namespace ex4
 
             Node<T> *altNext()
             {
+
                 if (ite_next_queue.size() > 0)
                 {
-                    Node<T> *current = ite_next_queue.front();
-                    ite_next_queue.pop_front();
-
-                    Node<T> *child = current->first_child;
-                    while (child)
+                    Node<T> *curr = ite_next_queue.back();
+                    ite_next_queue.pop_back();
+                    if (curr)
                     {
-                        ite_next_queue.emplace_front(child);
-                        child = child->next_sibling;
+                        Node<T> *child = curr->last_child;
+                        while (child)
+                        {
+                            ite_next_queue.emplace_back(child);
+                            child = child->prev_sibling;
+                        }
+                        return curr;
                     }
-                    return current;
                 }
                 return NULL;
             }
@@ -217,20 +225,20 @@ namespace ex4
 
             void next()
             {
-                Node<T> *child = current->first_child;
-                while (child && child->first_child)
+                if (ite_next_queue.size() > 0)
                 {
-                    ite_next_queue.emplace_front(child);
-                    child = child->first_child;
+                    current = ite_next_queue.back();
+                    ite_next_queue.pop_back();
+                    if (current)
+                    {
+                        Node<T> *child = current->last_child;
+                        while (child)
+                        {
+                            ite_next_queue.emplace_back(child);
+                            child = child->prev_sibling;
+                        }
+                    }
                 }
-                while (child)
-                {
-                    ite_next_queue.emplace_front(child);
-                    child = child->next_sibling;
-                }
-
-                current = ite_next_queue.front();
-                ite_next_queue.pop_front();
             }
         };
 
@@ -311,7 +319,7 @@ namespace ex4
 
                 right_most = current_node->first_child;
 
-                while (right_most->last_child != NULL && right_most->last_child != current_node)
+                while (right_most->last_child != NULL && right_most->last_child != current_node && right_most != current_node->last_child)
                 {
                     right_most = right_most->last_child;
                 }

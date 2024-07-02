@@ -51,6 +51,11 @@
             "cwd": "/home/omerapt/systems_programming/sp2/CPP_EX4_24",
             "binaryPath": "/home/omerapt/systems_programming/sp2/CPP_EX4_24/demo",
             "binaryArgs": []
+        },
+        {
+            "cwd": "/home/omerapt/systems_programming/sp2/CPP_EX4_24",
+            "binaryPath": "/home/omerapt/systems_programming/sp2/CPP_EX4_24/maintree",
+            "binaryArgs": []
         }
     ],
     "makefile.dryrunSwitches": [
