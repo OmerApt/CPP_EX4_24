@@ -36,26 +36,26 @@ int main()
      *  1.4  1.5  1.6
      */
 
-    // for (auto node = tree.begin_pre_order(); node != tree.end_pre_order(); ++node)
-    // {
-    //     cout << node->get_value() << endl;
-    // } // prints: 1.1, 1.2, 1.4, 1.5, 1.3, 1.6
-
-    // for (auto node = tree.begin_post_order(); node != tree.end_post_order(); ++node)
-    // {
-    //     cout << node->get_value() << endl;
-    // } // prints: 1.4, 1.5, 1.2, 1.6, 1.3, 1.1
-
-    // for (auto node = tree.begin_in_order(); node != tree.end_in_order(); ++node)
-    // {
-    //     cout << node->get_value() << endl;
-    // } // prints: 1.4, 1.2, 1.5, 1.1, 1.6, 1.3
-
-    // for (auto node = tree.begin_bfs_scan(); node != tree.end_bfs_scan(); ++node)
-    // {
-    //     cout << node->get_value() << endl;
-    // } // prints: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6
-
+    for (auto node = tree.begin_pre_order(); node != tree.end_pre_order(); ++node)
+    {
+        cout << node->get_value() << endl;
+    } // prints: 1.1, 1.2, 1.4, 1.5, 1.3, 1.6
+    cout << "//1" << endl;
+    for (auto node = tree.begin_post_order(); node != tree.end_post_order(); ++node)
+    {
+        cout << node->get_value() << endl;
+    } // prints: 1.4, 1.5, 1.2, 1.6, 1.3, 1.1
+    cout << "//2" << endl;
+    for (auto node = tree.begin_in_order(); node != tree.end_in_order(); ++node)
+    {
+        cout << node->get_value() << endl;
+    } // prints: 1.4, 1.2, 1.5, 1.1, 1.6, 1.3
+    cout << "//3" << endl;
+    for (auto node = tree.begin_bfs_scan(); node != tree.end_bfs_scan(); ++node)
+    {
+        cout << node->get_value() << endl;
+    } // prints: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6
+    cout << "//4" << endl;
     // for (auto node : tree)
     // {
     //     cout << node.get_value() << endl;

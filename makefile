@@ -1,7 +1,7 @@
 #!make -f
 
 CXX=clang++
-CXXFLAGS=-std=c++11 -g -Werror -Wsign-conversion
+CXXFLAGS=-std=c++17 -g -Werror -Wsign-conversion
 VALGRIND_FLAGS=-v --leak-check=full --show-leak-kinds=all  --error-exitcode=99
 
 all: clean demo
@@ -9,14 +9,16 @@ all: clean demo
 run: demo
 	./$^
 
+tree: maintree
+	./$^
 # run-test: test
 # 	./$^
 
-demo: Demo.o 
+demo: Demo.o
 	$(CXX) $(CXXFLAGS) $^ -o demo
 
-# test: $(OBJECTSTEST) $(OBJECTS)
-# 	$(CXX) $(CXXFLAGS) $^ -o test
+maintree:  Complex.o
+	$(CXX) $(CXXFLAGS) $^ -o maintree
 
 tidy:
 	clang-tidy $(SOURCES) -checks=bugprone-*,clang-analyzer-*,cppcoreguidelines-*,performance-*,portability-*,readability-*,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-owning-memory --warnings-as-errors=-* --

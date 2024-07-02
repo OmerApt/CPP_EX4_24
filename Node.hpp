@@ -27,5 +27,22 @@ namespace ex4
         {
             return value;
         }
+        bool operator<(Node<T> &rhs)
+        {
+            return this->get_value() < rhs.get_value();
+        }
+        bool operator>(Node<T> &rhs)
+        {
+            return this->get_value() > rhs.get_value();
+        }
+
+        bool operator==(Node<T> &rhs)
+        {
+            return !(this < rhs || this > rhs);
+        }
+        bool operator!=(Node<T> &rhs)
+        {
+            return (this < rhs || this > rhs);
+        }
     };
 } // namespace ex4
