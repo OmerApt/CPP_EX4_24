@@ -1,4 +1,4 @@
-//omer.apter@msmail.ariel.ac.il
+// omer.apter@msmail.ariel.ac.il
 #include <vector>
 #include "Node.hpp"
 #include <map>
@@ -43,8 +43,8 @@ namespace ex4
                 if (!node.first_child)
                 {
                     node.first_child = &child;
-                    if(child_limit != 2)//for binary first and last are diffrent for evreyone else its the same at start
-                    node.last_child = &child;
+                    if (child_limit != 2) // for binary first and last are diffrent for evreyone else its the same at start
+                        node.last_child = &child;
                 }
                 else
                 {
@@ -63,6 +63,38 @@ namespace ex4
             }
         }
         // start of iterators
+        class AbstractIterator
+        {
+        protected:
+            Node<T> *current_node = nullptr;
+            void fgfgf() {};
+
+        public:
+            virtual Node<T> &operator*() const
+            {
+                // return *pointer_to_current_node;
+                return *current_node;
+            }
+
+            virtual Node<T> *operator->() const
+            {
+                return current_node;
+            }
+
+            bool operator==(const AbstractIterator &rhs) const
+            {
+                return current_node == rhs.current_node;
+            }
+
+            bool operator!=(const AbstractIterator &rhs) const
+            {
+                return current_node != rhs.current_node;
+            }
+
+            virtual Node<T> *next() = 0;
+            // virtual bool *isEnd() = 0;
+        };
+
         class ForNonBinaryTreesIterator
         {
         protected:
@@ -102,30 +134,19 @@ namespace ex4
             }
         };
 
-        class BFSIterator
+        class BFSIterator : public AbstractIterator
         {
         private:
             deque<Node<T> *> ite_next_queue;
-            Node<T> *current;
 
         public:
             BFSIterator(Node<T> *root = nullptr) : ite_next_queue()
             {
-                current = root;
+                this->current_node = root;
             }
             ~BFSIterator()
             {
                 ite_next_queue.clear();
-            }
-            Node<T> &operator*() const
-            {
-                // return *pointer_to_current_node;
-                return current;
-            }
-
-            Node<T> *operator->() const
-            {
-                return current;
             }
 
             // ++i;
@@ -133,7 +154,7 @@ namespace ex4
             {
                 //++pointer_to_current_node;
                 // pointer_to_current_node = pointer_to_current_node->m_next;
-                next();
+                this->current_node = next();
                 return *this;
             }
 
@@ -142,22 +163,13 @@ namespace ex4
             const BFSIterator operator++(int)
             {
                 InOrderIterator tmp = *this;
-                next();
+                this->current_node = next();
                 return tmp;
             }
 
-            bool operator==(const BFSIterator &rhs) const
+            Node<T> *next() override
             {
-                return current == rhs.current;
-            }
-
-            bool operator!=(const BFSIterator &rhs) const
-            {
-                return current != rhs.current;
-            }
-
-            void next()
-            {
+                Node<T> *current = this->current_node;
                 Node<T> *child = current->first_child;
                 while (child)
                 {
@@ -166,41 +178,30 @@ namespace ex4
                 }
                 current = ite_next_queue.back();
                 ite_next_queue.pop_back();
+                return current;
             }
         };
 
-        class DFSIterator
+        class DFSIterator : public AbstractIterator
         {
         private:
             deque<Node<T> *> ite_next_queue;
-            Node<T> *current;
 
         public:
             DFSIterator(Node<T> *root = nullptr) : ite_next_queue()
             {
-                current = root;
+                this->current_node = root;
             }
             ~DFSIterator()
             {
                 ite_next_queue.clear();
             }
-            Node<T> &operator*() const
-            {
-                // return *pointer_to_current_node;
-                return current;
-            }
 
-            Node<T> *operator->() const
-            {
-                return current;
-            }
-
-            // ++i;
             DFSIterator &operator++()
             {
                 //++pointer_to_current_node;
                 // pointer_to_current_node = pointer_to_current_node->m_next;
-                next();
+                this->current_node = next();
                 return *this;
             }
 
@@ -209,25 +210,14 @@ namespace ex4
             const DFSIterator operator++(int)
             {
                 InOrderIterator tmp = *this;
-                next();
-                return tmp;
+                this->current_node = next();
             }
 
-            bool operator==(const DFSIterator &rhs) const
-            {
-                return current == rhs.current;
-            }
-
-            bool operator!=(const DFSIterator &rhs) const
-            {
-                return current != rhs.current;
-            }
-
-            void next()
+            Node<T> *next() override
             {
                 if (ite_next_queue.size() > 0)
                 {
-                    current = ite_next_queue.back();
+                    Node<T> *current = ite_next_queue.back();
                     ite_next_queue.pop_back();
                     if (current)
                     {
@@ -238,6 +228,7 @@ namespace ex4
                             child = child->prev_sibling;
                         }
                     }
+                    return current;
                 }
             }
         };
